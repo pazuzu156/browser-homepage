@@ -24,6 +24,7 @@ class Clean extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (file_exists(base_path().'/output')) {
+            shell_exec('rm -rf '.base_path().'/output/.git');
             $this->rmrf(base_path().'/output');
         }
 

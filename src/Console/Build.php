@@ -30,7 +30,7 @@ class Build extends Command
         $outputdir = base_path().'/output';
 
         if (!file_exists($outputdir) && !is_dir($outputdir)) {
-            mkdir($outputdir, 0777);
+            shell_exec('git clone https://github.com/pazuzu156/browser-homepage.git '.$outputdir);
         }
 
         foreach ($app->views() as $view) {
