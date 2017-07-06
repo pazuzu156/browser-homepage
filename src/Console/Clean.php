@@ -23,13 +23,8 @@ class Clean extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (file_exists(base_path().'/output')) {
-            shell_exec('rm -rf '.base_path().'/output/.git');
-            $this->rmrf(base_path().'/output');
-        }
-
         $handle = opendir(views_cache());
-        $ignore = ['.', '..', '.gitkeep'];
+        $ignore = ['.', '..', '.gitkeep', 'assets'];
 
         while ($file = readdir($handle)) {
             if (!in_array($file, $ignore)) {
@@ -37,30 +32,15 @@ class Clean extends Command
             }
         }
 
-        $output->writeln('<info>Done</>');
-    }
+        closedir($handle);
+        $handle = opendir(base_path().'/docs');
 
-    /**
-     * Handled removing a directory recursively.
-     *
-     * @param string $dir - The directory to remove
-     *
-     * @return void
-     */
-    private function rmrf($dir)
-    {
-        foreach (scandir($dir) as $file) {
-            if ('.' === $file || '..' === $file) {
-                continue;
-            }
-
-            if (is_dir("$dir/$file")) {
-                $this->rmrf("$dir/$file");
-            } else {
-                unlink("$dir/$file");
+        while ($file = readdir($handle)) {
+            if (!in_array($file, $ignore)) {
+                unlink(base_path().'/docs/'.$file);
             }
         }
 
-        rmdir($dir);
+        $output->writeln('<info>Done</>');
     }
 }

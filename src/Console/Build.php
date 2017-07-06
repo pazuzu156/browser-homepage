@@ -27,11 +27,7 @@ class Build extends Command
     {
         $this->_output = $output;
         $app = new Application();
-        $outputdir = base_path().'/output';
-
-        if (!file_exists($outputdir) && !is_dir($outputdir)) {
-            shell_exec('git clone -b html https://github.com/pazuzu156/browser-homepage.git '.$outputdir);
-        }
+        $outputdir = base_path().'/docs';
 
         foreach ($app->views() as $view) {
             $viewname = str_replace('.blade.php', '', $view);
@@ -54,39 +50,5 @@ class Build extends Command
                 unlink($html);
             }
         }
-
-        $this->copydir(base_path().'/html/assets', base_path().'/output/assets');
-    }
-
-    /**
-     * Handles copying entire directories.
-     *
-     * @param string $from - The directory to copy
-     * @param string $to   - Where to place the directory
-     *
-     * @return void
-     */
-    private function copydir($from, $to)
-    {
-        $dir = opendir($from);
-        @mkdir($to);
-        $ignore = ['.', '..'];
-
-        while (false !== ($file = readdir($dir))) {
-            if (!in_array($file, $ignore)) {
-                $f = $from.'/'.$file;
-                $t = $to.'/'.$file;
-
-                if (is_dir($from.'/'.$file)) {
-                    $this->_output->writeln('<info>Copying '.$f.' -> '.$t.'</>');
-                    $this->copydir($from.'/'.$file, $to.'/'.$file);
-                } else {
-                    $this->_output->writeln('<info>Copying '.$f.' -> '.$t.'</>');
-                    copy($from.'/'.$file, $to.'/'.$file);
-                }
-            }
-        }
-
-        closedir($dir);
     }
 }
