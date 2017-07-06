@@ -1,0 +1,19 @@
+#!/bin/php
+<?php
+
+require_once __DIR__.'/vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+
+$app = new Application();
+
+$commands = [
+    Core\Console\Build::class,
+    Core\Console\Clean::class,
+];
+
+foreach ($commands as $command) {
+    $app->add(new $command());
+}
+
+$app->run();

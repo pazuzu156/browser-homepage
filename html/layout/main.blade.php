@@ -54,9 +54,7 @@
         <div class="container">
             <div class="content">
                 <div class="searchbox">
-                <form method="get" action="#">
-                    <input type="text" name="action" placeholder="!help for help">
-                </form>
+                    @yield('content')
                 </div>
                 <div class="copy">
                     <p>&copy; 2017 Kaleb Klein.</p>
