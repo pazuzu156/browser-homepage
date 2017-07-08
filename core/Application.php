@@ -2,13 +2,21 @@
 
 namespace Core;
 
+use Core\Config\Configuration;
+use Core\Utils\Alias;
+
 class Application
 {
     private $_view;
 
+    private $_alias;
+
     public function __construct()
     {
         $this->_view = new View();
+        $this->_alias = new Alias();
+
+        $this->boot();
     }
 
     public function view()
@@ -32,5 +40,10 @@ class Application
         closedir($handle);
 
         return $files;
+    }
+
+    private function boot()
+    {
+        $this->_alias->registerAliases();
     }
 }

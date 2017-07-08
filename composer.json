@@ -1,14 +1,15 @@
 {
     "require": {
         "symfony/console": "^3.3",
-        "philo/laravel-blade": "^3.1"
+        "philo/laravel-blade": "^3.1",
+        "symfony/var-dumper": "^3.3"
     },
     "autoload": {
         "psr-4": {
-            "Core\\": "src/"
+            "Core\\": "core/"
         },
         "files": [
-            "src/helpers.php"
+            "core/Utils/helpers.php"
         ]
     }
 }

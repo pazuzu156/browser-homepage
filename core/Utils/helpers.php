@@ -1,5 +1,19 @@
 <?php
 
+if (!function_exists('config')) {
+    /**
+     * Gets a config item.
+     *
+     * @return mixed
+     */
+    function config($key)
+    {
+        $config = new \Core\Config\Configuration();
+
+        return $config->get($key);
+    }
+}
+
 if (!function_exists('base_path')) {
     /**
      * Gets the app's base path.
