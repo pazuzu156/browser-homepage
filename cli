@@ -1,19 +1,61 @@
-#!/bin/php
+#!/usr/bin/env php
 <?php
 
+// Include autoloader
 require_once __DIR__.'/vendor/autoload.php';
 
 use Symfony\Component\Console\Application;
+use Scara\Console\Console;
+
+// Console doesn't have these. Needed!!!
+if (!isset($_SERVER['HTTP_HOST'])) {
+    $_SERVER['REMOTE_ADDR'] = '0.0.0.0';
+    $_SERVER['HTTP_USER_AGENT'] = 'Appliation/PHP-Pazuzu156';
+    $_SERVER['SERVER_NAME'] = 'pazuzu156.github.io';
+    $_SERVER['HTTPS'] = 'on';
+}
 
 $app = new Application();
 
+// Register commands
+$console = new Console();
+
+// Holds all commands defined in array
 $commands = [
-    Core\Console\Build::class,
-    Core\Console\Clean::class,
+    // database commands
+    'database' => [
+        'migrate',
+        'MigrationBuilder',
+        'rollback',
+        'reset',
+        'truncate',
+        'delete',
+        'seed',
+        'model',
+    ],
+    'ClearCache',
+    // controller commands
+    'controller' => [
+        'CreateController',
+        'DeleteController',
+    ],
+    'ConfigPublish',
+    'GenKey',
 ];
 
-foreach ($commands as $command) {
-    $app->add(new $command());
+// Loop through commands array and register each command
+foreach($commands as $key => $value) {
+    if(is_array($value)) {
+        foreach($value as $command) {
+            $app->add($console->register($key.'/'.$command));
+        }
+    }
+    else {
+        $app->add($console->register($value));
+    }
 }
+
+// Custom console commands for app
+$app->add(new \App\Console\Build());
 
 $app->run();

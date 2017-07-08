@@ -1,15 +1,27 @@
 {
+    "name": "scaramvc/scara",
+    "description": "Application portion of Scara MVC Framework",
+    "type": "project",
+    "license": "GPL2",
+    "keywords": ["framework", "scara", "mvc", "php"],
+    "config": {
+        "preferred-install": "dist",
+        "optimize-autoloader": true
+    },
     "require": {
-        "symfony/console": "^3.3",
-        "philo/laravel-blade": "^3.1",
-        "symfony/var-dumper": "^3.3"
+        "scaramvc/framework": "1.*"
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [ "php cli genkey" ],
+        "post-install-cmd": [ "composer dump-autoload -o" ],
+        "post-update-cmd": [ "composer dump-autoload -o" ]
     },
     "autoload": {
         "psr-4": {
-            "Core\\": "core/"
-        },
-        "files": [
-            "core/Utils/helpers.php"
-        ]
+            "App\\": "app/"
+        }
     }
 }

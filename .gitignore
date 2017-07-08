@@ -1,3 +1,15 @@
-output/
-composer.lock
+.env
 vendor/
+storage/cache/*
+!storage/cache/.gitkeep
+storage/sessions/*
+!storage/sessions/.gitkeep
+config/*
+!config/*.php
+
+# KDE shit doesn't need to be here :p
+.directory
+
+# Project files/dirs
+.idea/
+.vscode/
